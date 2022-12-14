@@ -2,6 +2,8 @@ package com.dogadjaji_219.dogadjaji_219.models.entities;
 
 import java.util.List;
 
+import com.dogadjaji_219.dogadjaji_219.models.in.LokacijaIn;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +19,12 @@ public class Lokacija {
     private String name;
     private String description;
     private String image;
+
+    public Lokacija(LokacijaIn lokacijaIn) {
+        name = lokacijaIn.getName();
+        description = lokacijaIn.getDescription();
+        image = lokacijaIn.getImage();
+    }
 
     @OneToMany(mappedBy = "lokacija", fetch = FetchType.LAZY)
     private List<Dogadjaji> dogadjaji;

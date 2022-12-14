@@ -26,12 +26,12 @@ public class LokacijaServiceImpl implements LokacijaService{
         return LokacijaOuts;
     }
 
-   /* @Override
+   @Override
     public LokacijaOut save(LokacijaIn lokacijaIn) {
         Lokacija lokacija = new Lokacija(lokacijaIn);
         _LokacijaRepository.save(lokacija);
         return new LokacijaOut();
-    }*/
+    }
 
     @Override
     public LokacijaOut edit(Integer id, LokacijaIn lokacijaIn) {
@@ -44,7 +44,6 @@ public class LokacijaServiceImpl implements LokacijaService{
         return null;
     }
 
-   
     @Override
     public Lokacija getByIdDB(Integer id) {
         return _LokacijaRepository.findById(id).get();
