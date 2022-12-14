@@ -57,9 +57,9 @@ public class DogadjajiSerivceImp implements DogadjajiService{
 
             Kategorija kategorija = _KategorijaService.getByIdDB(dogadjajiIn.getKategorijaId());
             dogadjaji.setKategorija(kategorija);
-
+           
             _DogadjajiRepository.save(dogadjaji);
-            return new DogadjajiOut();
+            return new DogadjajiOut(dogadjaji);
         }
         return null;
     }

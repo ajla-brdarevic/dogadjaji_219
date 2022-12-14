@@ -16,4 +16,6 @@ public interface DogadjajiService {
     DogadjajiOut edit(Integer id, DogadjajiIn roleIn);
     
     boolean delete(Integer id);
+
+    
 }

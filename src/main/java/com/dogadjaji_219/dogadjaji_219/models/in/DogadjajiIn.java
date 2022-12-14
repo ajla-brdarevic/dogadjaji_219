@@ -7,8 +7,8 @@ public class DogadjajiIn {
     private Date date;
     private String description;
     private String imageEvent;
-    private String kategorijaId;
-    private String lokacijaId;
+    private Integer kategorijaId;
+    private Integer lokacijaId;
     
     public DogadjajiIn() {
     }
@@ -36,16 +36,16 @@ public class DogadjajiIn {
     public void setImageEvent(String imageEvent) {
         this.imageEvent = imageEvent;
     }
-    public String getKategorijaId() {
+    public Integer getKategorijaId() {
         return kategorijaId;
     }
-    public void setKategorijaId(String kategorijaId) {
+    public void setKategorijaId(Integer kategorijaId) {
         this.kategorijaId = kategorijaId;
     }
-    public String getLokacijaId() {
+    public Integer getLokacijaId() {
         return lokacijaId;
     }
-    public void setLokacijaId(String lokacijaId) {
+    public void setLokacijaId(Integer lokacijaId) {
         this.lokacijaId = lokacijaId;
     }
 
