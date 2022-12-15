@@ -4,6 +4,13 @@ public class JwtRequest {
     private String email;
     private String password;
 
+    
+    public JwtRequest() {
+    }
+    public JwtRequest(String email, String password){
+        this.setEmail(email);
+        this.setPassword(password);
+    }
     public String getEmail() {
         return email;
     }
