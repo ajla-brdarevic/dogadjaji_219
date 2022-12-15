@@ -1,51 +1,84 @@
 package com.dogadjaji_219.dogadjaji_219.models.services.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dogadjaji_219.dogadjaji_219.models.entities.Role;
 import com.dogadjaji_219.dogadjaji_219.models.entities.User;
-import com.dogadjaji_219.dogadjaji_219.models.repositories.RoleRepository;
+import com.dogadjaji_219.dogadjaji_219.models.in.UserIn;
+import com.dogadjaji_219.dogadjaji_219.models.out.UserOut;
 import com.dogadjaji_219.dogadjaji_219.models.repositories.UserRepository;
+import com.dogadjaji_219.dogadjaji_219.models.services.RoleService;
 import com.dogadjaji_219.dogadjaji_219.models.services.UserService;
 
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-@Service @RequiredArgsConstructor @Transactional @Slf4j
+@Service 
 public class UserServiceImpl implements UserService{
 
-    private final UserRepository _UserRepository;
-    private final RoleRepository _RoleRepository;
+    @Autowired
+    private UserRepository _UserRepository;
+
+    @Autowired
+    private RoleService _RoleService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public void addRoleToUser(String email, String roleName) {
-        User user = _UserRepository.findByEmail(email);
-        Role role = _RoleRepository.findByName(roleName);
-        user.getRoles().add(role);
+    public boolean delete(Integer id) {
+        User user = _UserRepository.findById(id).get();
+        if(user != null){
+            _UserRepository.delete(user);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public User getUser(String email) {
-        return _UserRepository.findByEmail(email);
+    public UserOut edit(Integer id, UserIn userIn) {
+        User user = _UserRepository.findById(id).get();
+        if(user != null){
+            user.setEmail(userIn.getEmail());
+            _UserRepository.save(user);
+            return new UserOut(user);
+        }
+        return null;
     }
 
     @Override
-    public List<User> getUsers() {
-        return _UserRepository.findAll();
+    public List<UserOut> getAll() {
+        List<User> users = _UserRepository.findAll();
+        List<UserOut> userOuts = new ArrayList<>();
+
+        for (User user : users) {
+            userOuts.add(new UserOut(user));
+        }
+        return userOuts;
     }
 
     @Override
-    public Role saveRole(Role role) {
-        return _RoleRepository.save(role);
+    public User getByEmail(String email) {
+        return _UserRepository.getByEmail(email);
     }
 
     @Override
-    public User saveUser(User user) {
-        return _UserRepository.save(user);
-    }
-    
+    public UserOut save(UserIn userIn) {
+        User user = new User(userIn);
+        Role role = _RoleService.getByName("user");
 
+        if(role != null){
+            user.setPassword(getEncodedPassword(userIn.getPassword()));
+            user.setRole(role);
+            _UserRepository.save(user);
+            return new UserOut(user);
+        }
+        return null;
+    }
+
+    private String getEncodedPassword(String password){
+        return passwordEncoder.encode(password);
+    }
 }

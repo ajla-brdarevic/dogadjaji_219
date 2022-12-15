@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.dogadjaji_219.dogadjaji_219.models.entities.Role;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long>{
-    Role findByName(String name);
+public interface RoleRepository extends JpaRepository<Role, Integer>{
+    Role getByName(String name);
 }

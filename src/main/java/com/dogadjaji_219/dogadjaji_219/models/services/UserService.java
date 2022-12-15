@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.dogadjaji_219.dogadjaji_219.models.entities.Role;
 import com.dogadjaji_219.dogadjaji_219.models.entities.User;
+import com.dogadjaji_219.dogadjaji_219.models.in.UserIn;
+import com.dogadjaji_219.dogadjaji_219.models.out.UserOut;
 
 @Service
 public interface UserService {
-    User saveUser(User user);
-    Role saveRole(Role role);
+    List<UserOut> getAll();
 
-    void addRoleToUser(String email, String roleName);
-    User getUser(String email);
-    List<User> getUsers();
+    UserOut save(UserIn userIn);
+
+    UserOut edit(Integer id, UserIn userIn);
+
+    boolean delete(Integer id);
+
+    User getByEmail(String email);
 }

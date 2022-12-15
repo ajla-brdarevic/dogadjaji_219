@@ -1,55 +1,43 @@
 package com.controllers;
 
-import java.net.URI;
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.dogadjaji_219.dogadjaji_219.models.entities.Role;
-import com.dogadjaji_219.dogadjaji_219.models.entities.User;
+import com.dogadjaji_219.dogadjaji_219.models.in.UserIn;
+import com.dogadjaji_219.dogadjaji_219.models.out.UserOut;
 import com.dogadjaji_219.dogadjaji_219.models.services.UserService;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 @RestController 
-@RequestMapping ("/api")
-@RequiredArgsConstructor
+@RequestMapping ("/api/users")
 public class UserController {
-    private final UserService _UserService;
 
-    @GetMapping("/users")
-    public ResponseEntity<List<User>>getUsers(){
-        return ResponseEntity.ok().body(_UserService.getUsers());
+    @Autowired
+    private UserService _UserService;
+
+    @GetMapping(value = "/")
+    public List<UserOut> getAll(){
+        return _UserService.getAll();
     }
 
-    @PostMapping("/user/save")
-    public ResponseEntity<User>saveUser(@RequestBody User user){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(_UserService.saveUser(user));
+    @PostMapping(value = "/")
+    public UserOut addKategorija(@RequestBody UserIn userIn){
+        return _UserService.save(userIn);
     }
 
-    @PostMapping("/role/save")
-    public ResponseEntity<Role>saveRole(@RequestBody Role role){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
-        return ResponseEntity.created(uri).body(_UserService.saveRole(role));
+    @PostMapping(value = "/")
+    public UserOut edit(@RequestParam("id") String id, @RequestBody UserIn userIn) {
+        return _UserService.edit(Integer.parseInt(id), userIn);
     }
 
-    @PostMapping("/role/addtouser")
-    public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUserForm form){
-        _UserService.addRoleToUser(form.getEmail(), form.getRoleName());
-        return ResponseEntity.ok().build();
+    @PostMapping(value = "/")
+    public boolean delete(@RequestParam("id") String id) {
+        return _UserService.delete(Integer.parseInt(id));
     }
-}
-
-@Data
-class RoleToUserForm {
-    private String email;
-    private String roleName;
 }
