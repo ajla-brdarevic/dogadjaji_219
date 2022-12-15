@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.dogadjaji_219.dogadjaji_219.models.entities.User;
 import com.dogadjaji_219.dogadjaji_219.models.repositories.UserRepository;
+import com.helpers.JwtUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +24,9 @@ public class JwtService implements UserDetailsService{
     private String secret;
     private long expiration;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+    
     @Autowired
     private UserRepository _UserRepository;
     
