@@ -10,4 +10,5 @@ public class Dogadjaji219Application {
 		SpringApplication.run(Dogadjaji219Application.class, args);
 	}
 
+	
 }
