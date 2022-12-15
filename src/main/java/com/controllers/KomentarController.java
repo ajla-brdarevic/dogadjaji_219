@@ -1,6 +1,8 @@
 package com.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +22,9 @@ public class KomentarController {
     private KomentarService _KomentarService;
     
     @PostMapping("")
-    public ResponseEtnity<Komentar> createComment(@RequestBody KomentarIn komentarIn, @AuthenticationPrincipal User user){
+    public ResponseEntity<Komentar> createComment(@RequestBody KomentarIn komentarIn, @AuthenticationPrincipal User user) {
         Komentar komentar = _KomentarService.save(komentarIn, user);
-        return ResponseEtnity.ok(komentar);
+        return ResponseEntity.status(HttpStatus.OK).body(komentar);
     }
+    
 }
