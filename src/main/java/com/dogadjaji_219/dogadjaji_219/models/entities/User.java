@@ -3,26 +3,35 @@ package com.dogadjaji_219.dogadjaji_219.models.entities;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.dogadjaji_219.dogadjaji_219.models.in.UserIn;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity @Data @NoArgsConstructor @AllArgsConstructor 
+@Entity @Setter @Getter
 public class User {
     @Id 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String email;
+    
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
 
+    public User(){
 
+    }
+
+    public User(UserIn userIn){
+        email = userIn.getEmail();
+    }
 }
