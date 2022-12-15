@@ -3,6 +3,10 @@ package com.helpers;
 public class JwtResponse {
     private String accessToken;
 
+    public JwtResponse() {
+    }
+    
+
     public JwtResponse(String accesToken){
         this.accessToken = accesToken;
     }

@@ -1,7 +1,6 @@
 package com.dogadjaji_219.dogadjaji_219.models.entities;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Set;
 
 import com.dogadjaji_219.dogadjaji_219.models.in.UserIn;
 
@@ -11,10 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.Setter;
 
-@Entity @Setter @Getter
+@Entity 
 public class User {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +24,48 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
-    public User(){
+    private Set set;
+
+    public User(String string, String string2, Set set){
+        this.set = set;
 
     }
 
     public User(UserIn userIn){
         email = userIn.getEmail();
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    
 }
