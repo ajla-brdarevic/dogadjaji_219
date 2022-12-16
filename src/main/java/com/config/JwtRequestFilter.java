@@ -30,10 +30,14 @@ public class JwtRequestFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+                //dohvaća vrijednost zaglavlja zahtjeva za autorizaciju iz parametra zahtjeva
                 final String requestTokenHeader = ((HttpServletRequest) request).getHeader("Authorization");
                 String email = null;
                 String jwtToken = null;
             
+                /*provjerava sadrži li varijabla requestTokenHeader JWT token i, ako je tako, izdvaja token iz varijable requestTokenHeader 
+                i pokušava izdvojiti email korisnika iz tokena pokušava izvući adresu e-pošte korisnika iz JWT tokena pozivanjem metode 
+                getUsernameFromToken objekta jwtUtil i prosljeđivanjem varijable jwtToken*/
                     if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
                         jwtToken = requestTokenHeader.substring(7);
                         try {
@@ -44,7 +48,8 @@ public class JwtRequestFilter implements Filter {
                             System.out.println("JWT Token has expired");
                         }
                     } 
-            
+            /*provjerava jesu li email i JWT token uspješno izvućeni iz zaglavlja zahtjeva za autorizaciju i da li je korisnik već autentificiran
+            i potvrđuje JWT token pomoću metode validateToken objekta jwtUtil, kojoj se prosljeđuju varijabla jwtToken i objekt userDetails*/
                     if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                         UserDetails userDetails = this._UserDetailsService.loadUserByEmail(email);
             
