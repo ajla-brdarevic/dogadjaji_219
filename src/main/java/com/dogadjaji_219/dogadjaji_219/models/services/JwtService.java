@@ -1,11 +1,7 @@
 package com.dogadjaji_219.dogadjaji_219.models.services;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,10 +20,6 @@ import com.helpers.JwtRequest;
 import com.helpers.JwtResponse;
 import com.helpers.JwtUtil;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 @Service
 public class JwtService implements UserDetailsService{
 
@@ -36,15 +28,17 @@ public class JwtService implements UserDetailsService{
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public JwtResponse createJwtToken (JwtRequest jwtRequest) throws Exception{
         String email = jwtRequest.getEmail();
         String userPassword = jwtRequest.getPassword();
         authenticate(email, userPassword);
-//ha?????
+
         UserDetails userDetails = loadUserByUsername(email);
-        String newGeneratedTokens = getUtil.generatedTokens(userDetails);
+        String newGeneratedTokens = jwtUtil.generateToken(userDetails);
 
         JwtResponse response = new JwtResponse(newGeneratedTokens);
 
@@ -69,7 +63,7 @@ public class JwtService implements UserDetailsService{
 
         return authorities;
     }
-//sta se ovdje desilo
+
     private SimpleGrantedAuthority SimpleGrantedAuthority(String string) {
         return null;
     }
